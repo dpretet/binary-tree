@@ -2,8 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-    A binary tree implementation
+A binary tree implementation
 """
+
+from __future__ import print_function
+
+
+import sys
 
 class node(object):
     """ 
@@ -15,18 +20,15 @@ class node(object):
         """ Class constructor """
         
         # Left node, storing a value smaller/equal
-        # of the current node value
+        #  value of the current node value
         self.left = None
         
         # Right node, storing value greater
-        # than current value
+        # value than current value
         self.right = None
         
         # Node value
-        if value is not None:
-            self.value = value
-        else:
-            self.value = None
+        self.value = value
 
     def insert(self, value):
         """
@@ -34,7 +36,7 @@ class node(object):
         """
         if self.value == None:
             self.value = value
-            return 0
+            return None
         else:
             if self.value <= value:
                 if self.left == None:
@@ -49,27 +51,81 @@ class node(object):
         """
         Evaluate a node is equale to value
         """
-        if self.value == value:
+        if self.value == None:
+            return 0
+        elif self.value == value:
             return 1
         else:
-            return 0
+            if value <= self.value:
+                return self.left.lookup(value)
+            else:
+                return self.right.lookup(value)
 
-    def _isSmaller(self, value):
+    def getSize(self):
         """
-        Search for smaller value
+        Return the size of the tree, 
+        from the current node
         """
-        pass
+        
+        size = 0
+        
+        if self.left is not None:
+            size = size + self.left.getSize()
 
-    def _isBigger(self, value):
-        """
-        Search for bigger value
-        """
-        pass
+        if self.right is not None:
+            size = size + self.right.getSize()
 
-    def _isEqual(self, value):
+        return size
+
+    def getDepth(self):
         """
-        Check if node value is equal or not
+        Return the depth of the tree, 
+        from the current node
         """
+        
+        depth = 1
+        depth_left = 0
+        depth_right = 0
+        
+        if self.left is not None:
+            depth_left = self.left.getDepth()
+
+        if self.right is not None:
+            depth_right = self.right.getDepth()
+        
+        if depth_left < depth_right:
+            depth = depth + depth_right
+        else:
+            depth = depth + depth_left
+
+        return depth
+
+    def getMinValue(self):
+        """
+        Return the minimum value of the tree
+        """
+        val = self.value
+        
+        if self.left.value is not None:
+            _val = self.left.getMinValue()
+            if _val < val:
+                val = _val
+
+        return val
+        
+    def getMaxValue(self):
+        """
+        Return the maximum value of the tree
+        """
+
+        val = self.value
+        
+        if self.right.value is not None:
+            _val = self.right.getMaxValue()
+            if _val > val:
+                val = _val
+
+        return val
 
 class tree(object):
     """
