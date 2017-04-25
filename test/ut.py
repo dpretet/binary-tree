@@ -10,44 +10,77 @@ sys.path.append(CURDIR+"/../src")
 from binary_tree import node
 
 import random
+from datetime import datetime
 
 class BasicTest(unittest.TestCase):
     """ Class description """
-    
+
     def setUp(self):
         pass
 
     def tearnDown(self):
         pass
-    
+
     def test_load(self):
         """ Just test to load the object """
         tree = node()
 
-class ParseTree(unittest.TestCase):
+class PerfMeasure(unittest.TestCase):
     """ Class description """
-    
+
     def setUp(self):
         pass
 
     def tearnDown(self):
         pass
-    
-    def test_create(self):
-        """ Just test to load the object """
-        data = []
-        tree = node()
-        
-        for i in range(10):
-            data.append(random.randrange(0, 101, 1))
 
-        print data
+    def test_getMin_measure(self):
+        """Just test to load the object"""
+
+        tree = node()
+        data = []
+
+        for i in range(10):
+            data.append(random.randrange(0, 1001, 1))
         
-        for i in range(len(data)):
-            tree.insert(i)
+        for d in data:
+            tree.insert(d)
+
+        print ""
+        print data
+        print ""
+
+        dt0 = datetime.now()
+        dt0 = dt0.microsecond
+        mini = tree.getMinValue()
+        dt1 = datetime.now()
+        dt1 = dt1.microsecond
+        time = dt1 - dt0
+
+        print "tree getMinValue: %d; time: %d" % (mini, time)
+
+        #(val, time) = self.getMinValue(data)
+
+        #print "basic getMinValue: %d; time: %d" % (val, time)
+
+    def getMinValue(self, listVal):
+
+        minimum = 10000
+        dt0 = datetime.now()
+        dt0 = dt0.microsecond
+
+        for val in listVal:
+            if val < minimum:
+                minimum = val
+
+        dt1 = datetime.now()
+        dt1 = dt1.microsecond
+        time = dt1 - dt0
+        return minimum, time
+
 
 if __name__ == '__main__':
 
     unittest.main()
-    
+
 
