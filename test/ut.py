@@ -40,16 +40,14 @@ class PerfMeasure(unittest.TestCase):
         tree = node()
         data = []
 
-        for i in range(50000):
+        for i in range(5000):
             data.append(random.randrange(0, 1001, 1))
         
         for d in data:
             tree.insert(d)
 
-        print ""
-        #print data
-        print ""
-        #printTree(tree, 0)
+        print data
+        print printTree(tree, 0)
 
         dt0 = datetime.now()
         dt0 = dt0.microsecond
@@ -58,26 +56,26 @@ class PerfMeasure(unittest.TestCase):
         dt1 = dt1.microsecond
         time = dt1 - dt0
 
-        print "tree getMinValue: %d; time: %d" % (mini, time)
+        print "BTS getMinValue time: %d; time: %d ms" % (mini, time)
 
-        (val, time) = self.getMinValue(data)
+        (mini, time) = self.getMinValue(data)
 
-        print "basic getMinValue: %d; time: %d" % (val, time)
+        print "Basic list getMinValuetime: %d; time: %d ms" % (mini, time)
 
     def getMinValue(self, listVal):
 
-        minimum = 10000
+        mini = 10000
         dt0 = datetime.now()
         dt0 = dt0.microsecond
 
         for val in listVal:
-            if val < minimum:
-                minimum = val
+            if val < mini:
+                mini = val
 
         dt1 = datetime.now()
         dt1 = dt1.microsecond
         time = dt1 - dt0
-        return minimum, time
+        return mini, time
 
 
 if __name__ == '__main__':

@@ -133,13 +133,17 @@ def printTree(node, sp=0):
 
     if node is not None:
         
-        if node.left is not None:
-            print printTree(node.left, sp+1)
+        ret["val"] = node.value
         
-        print str(node.value)
+        if node.left is not None:
+            #print printTree(node.left, sp+1)
+            ret["left"] =  printTree(node.left, sp+1)
+        
+        #print str(node.value)
         
         if node.right is not None:
-            print printTree(node.right, sp+1)
+            #print printTree(node.right, sp+1)
+            ret["right"] = printTree(node.right, sp+1)
 
     return ret
 
