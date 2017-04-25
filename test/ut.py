@@ -7,7 +7,7 @@ import unittest
 CURDIR = os.path.abspath(os.path.dirname(__file__))
 print CURDIR
 sys.path.append(CURDIR+"/../src")
-from binary_tree import node
+from binary_tree import node, printTree
 
 import random
 from datetime import datetime
@@ -40,15 +40,16 @@ class PerfMeasure(unittest.TestCase):
         tree = node()
         data = []
 
-        for i in range(10):
+        for i in range(50000):
             data.append(random.randrange(0, 1001, 1))
         
         for d in data:
             tree.insert(d)
 
         print ""
-        print data
+        #print data
         print ""
+        #printTree(tree, 0)
 
         dt0 = datetime.now()
         dt0 = dt0.microsecond
@@ -59,9 +60,9 @@ class PerfMeasure(unittest.TestCase):
 
         print "tree getMinValue: %d; time: %d" % (mini, time)
 
-        #(val, time) = self.getMinValue(data)
+        (val, time) = self.getMinValue(data)
 
-        #print "basic getMinValue: %d; time: %d" % (val, time)
+        print "basic getMinValue: %d; time: %d" % (val, time)
 
     def getMinValue(self, listVal):
 

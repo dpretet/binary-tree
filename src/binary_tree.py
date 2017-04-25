@@ -36,7 +36,7 @@ class node(object):
             self.value = value
             return None
         else:
-            if self.value <= value:
+            if value <= self.value:
                 if self.left == None:
                     self.left = node()
                 return self.left.insert(value)
@@ -124,4 +124,22 @@ class node(object):
                 val = _val
 
         return val
+
+def printTree(node, sp=0):
+    """
+    Print the tree
+    """
+    ret = {"level" : sp, "val" : ".", "left" : ".", "right" : "."} 
+
+    if node is not None:
+        
+        if node.left is not None:
+            print printTree(node.left, sp+1)
+        
+        print str(node.value)
+        
+        if node.right is not None:
+            print printTree(node.right, sp+1)
+
+    return ret
 
