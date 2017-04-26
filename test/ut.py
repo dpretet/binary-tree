@@ -34,7 +34,7 @@ class PerfMeasure(unittest.TestCase):
     def tearnDown(self):
         pass
 
-    def test_getMin_measure(self):
+    def test_getMinValue_measure(self):
         """Just test to load the object"""
 
         tree = node()
@@ -61,6 +61,8 @@ class PerfMeasure(unittest.TestCase):
         (mini, time) = self.getMinValue(data)
 
         print "Basic list getMinValuetime: %d; time: %d ms" % (mini, time)
+
+
 
     def getMinValue(self, listVal):
 

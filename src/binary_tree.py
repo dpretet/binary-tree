@@ -163,8 +163,6 @@ def printTree(tree):
     
     for line in outtree:
         print line
-    #print max_depth
-    #print outtree
 
 def _printTree(tree, depth, max_depth, string_tree):
     """
