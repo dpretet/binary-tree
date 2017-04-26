@@ -40,14 +40,14 @@ class PerfMeasure(unittest.TestCase):
         tree = node()
         data = []
 
-        for i in range(5000):
-            data.append(random.randrange(0, 1001, 1))
+        for i in range(5):
+            data.append(random.randrange(0, 101, 1))
         
         for d in data:
             tree.insert(d)
 
         print data
-        print printTree(tree, 0)
+        printTree(tree)
 
         dt0 = datetime.now()
         dt0 = dt0.microsecond

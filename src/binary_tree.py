@@ -125,25 +125,55 @@ class node(object):
 
         return val
 
-def printTree(node, sp=0):
+def getTree(tree, depth=0):
+    """
+    Get the tree in a nested dictionnary
+    """
+    node = {"depth" : depth, "value" : None, "left" : None, "right" : None}
+    max_depth = depth
+    max_depth_left = depth
+    max_depth_right = depth
+
+    if tree is not None:
+        
+        node["value"] = tree.value
+        
+        if tree.left is not None:
+            max_depth_left, node["left"] =  getTree(tree.left, depth+1)
+        
+        if tree.right is not None:
+            max_depth_right, node["right"] = getTree(tree.right, depth+1)
+    if max_depth < max_depth_left:
+        max_depth = max_depth_left
+    if max_depth < max_depth_right:
+        max_depth = max_depth_right
+    return max_depth, node
+
+def printTree(tree):
     """
     Print the tree
     """
-    ret = {"level" : sp, "val" : ".", "left" : ".", "right" : "."} 
+    max_depth, nested_tree = getTree(tree, 0)
+    string_tree = []
+    
+    for i in range(max_depth+1):
+        string_tree.append("")
+    
+    outtree = _printTree(nested_tree, 0, max_depth, string_tree)
+    
+    for line in outtree:
+        print line
+    #print max_depth
+    #print outtree
 
-    if node is not None:
-        
-        ret["val"] = node.value
-        
-        if node.left is not None:
-            #print printTree(node.left, sp+1)
-            ret["left"] =  printTree(node.left, sp+1)
-        
-        #print str(node.value)
-        
-        if node.right is not None:
-            #print printTree(node.right, sp+1)
-            ret["right"] = printTree(node.right, sp+1)
+def _printTree(tree, depth, max_depth, string_tree):
+    """
+    Internal print tree
+    """
 
-    return ret
-
+    if tree is not None:
+        if "value" in tree and tree["value"] is not None:
+            string_tree[depth] += (max_depth-depth)*"  " + str(tree["value"]) + " "
+            string_tree = _printTree(tree["left"], tree["depth"]+1, max_depth, string_tree)
+            string_tree = _printTree(tree["right"], tree["depth"]+1, max_depth, string_tree)
+    return string_tree
