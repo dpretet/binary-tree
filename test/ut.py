@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, sys
+import os
+import sys
 import unittest
 
 CURDIR = os.path.abspath(os.path.dirname(__file__))
-print CURDIR
-sys.path.append(CURDIR+"/../src")
-from binary_tree import node, printTree
+sys.path.append(CURDIR + "/../src")
+from binary_tree import node
 
 import random
 from datetime import datetime
+
 
 class BasicTest(unittest.TestCase):
     """ Class description """
@@ -24,6 +25,8 @@ class BasicTest(unittest.TestCase):
     def test_load(self):
         """ Just test to load the object """
         tree = node()
+        del tree
+
 
 class PerfMeasure(unittest.TestCase):
     """ Class description """
@@ -40,14 +43,14 @@ class PerfMeasure(unittest.TestCase):
         tree = node()
         data = []
 
-        for i in range(5):
+        for i in range(10000):
             data.append(random.randrange(0, 101, 1))
-        
+
         for d in data:
             tree.insert(d)
 
-        print data
-        printTree(tree)
+        # print data
+        # printTree(tree)
 
         dt0 = datetime.now()
         dt0 = dt0.microsecond
@@ -62,8 +65,6 @@ class PerfMeasure(unittest.TestCase):
 
         print "Basic list getMinValuetime: %d; time: %d ms" % (mini, time)
 
-
-
     def getMinValue(self, listVal):
 
         mini = 10000
@@ -77,11 +78,10 @@ class PerfMeasure(unittest.TestCase):
         dt1 = datetime.now()
         dt1 = dt1.microsecond
         time = dt1 - dt0
+
         return mini, time
 
 
 if __name__ == '__main__':
 
     unittest.main()
-
-
