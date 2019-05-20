@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+import random
+from binary_tree import Node
+from binary_tree import display
 import os
 import sys
 import unittest
 
 CURDIR = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(CURDIR + "/../src")
-from binary_tree import node
-
-import random
-from datetime import datetime
 
 
 class BasicTest(unittest.TestCase):
@@ -24,7 +24,7 @@ class BasicTest(unittest.TestCase):
 
     def test_load(self):
         """ Just test to load the object """
-        tree = node()
+        tree = Node()
         del tree
 
 
@@ -40,7 +40,7 @@ class PerfMeasure(unittest.TestCase):
     def test_getMinValue_measure(self):
         """Just test to load the object"""
 
-        tree = node()
+        tree = Node()
         data = []
 
         for i in range(10000):
@@ -48,9 +48,6 @@ class PerfMeasure(unittest.TestCase):
 
         for d in data:
             tree.insert(d)
-
-        # print data
-        # printTree(tree)
 
         dt0 = datetime.now()
         dt0 = dt0.microsecond
@@ -80,6 +77,34 @@ class PerfMeasure(unittest.TestCase):
         time = dt1 - dt0
 
         return mini, time
+
+
+class Display(unittest.TestCase):
+    """ Class description """
+
+    def setUp(self):
+        pass
+
+    def tearnDown(self):
+        pass
+
+    def test_getMinValue_measure(self):
+        """Just test to load the object"""
+
+        tree = Node()
+        data = []
+
+        for i in range(30):
+            d = random.randrange(0, 101, 1)
+            if d not in data:
+                data.append(d)
+
+        for d in data:
+            if not tree.lookup(d):
+                print("Insert %d in the tree" % d)
+                tree.insert(d)
+
+        display(tree)
 
 
 if __name__ == '__main__':

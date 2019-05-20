@@ -1,4 +1,4 @@
 test:
-	@python test/ut.py
+    @python src/unittest.py
 
 .PHONY: test

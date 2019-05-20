@@ -5,8 +5,10 @@
 A binary tree implementation
 """
 
+from graphviz import Digraph
 
-class node(object):
+
+class Node(object):
 
     """
     Mother class to create
@@ -17,7 +19,7 @@ class node(object):
         """ Class constructor """
 
         # Left node, storing a value smaller/equal
-        #  value of the current node value
+        # value of the current node value
         self.left = None
 
         # Right node, storing value greater
@@ -32,20 +34,19 @@ class node(object):
 
         if self.value is None:
             self.value = value
+            return
+
+        if value <= self.value:
+            if self.left is None:
+                self.left = Node()
+
+            return self.left.insert(value)
 
         else:
+            if self.right is None:
+                self.right = Node()
 
-            if value <= self.value:
-                if self.left is None:
-                    self.left = node()
-
-                return self.left.insert(value)
-
-            else:
-                if self.right is None:
-                    self.right = node()
-
-                return self.right.insert(value)
+            return self.right.insert(value)
 
     def lookup(self, value):
         """ Evaluate a node is equal to value """
@@ -53,16 +54,19 @@ class node(object):
         if self.value is None:
             return 0
 
-        elif self.value == value:
+        if self.value == value:
             return 1
 
-        else:
+        if self.left is None:
+            return 0
 
-            if value <= self.value:
-                return self.left.lookup(value)
+        if self.right is None:
+            return 0
 
-            else:
-                return self.right.lookup(value)
+        if value <= self.value:
+            return self.left.lookup(value)
+
+        return self.right.lookup(value)
 
     def getSize(self):
         """ Return the size of the tree, from the current node """
@@ -160,29 +164,28 @@ def getTree(tree, depth=0):
     return max_depth, node
 
 
-def printTree(tree):
-    """ Print the tree """
+def display(tree):
+    """ Display the created graph,
+    rendered with Graphviz """
 
-    max_depth, nested_tree = getTree(tree, 0)
-    string_tree = []
-
-    for i in range(max_depth + 1):
-        string_tree.append("")
-
-    outtree = _printTree(nested_tree, 0, max_depth, string_tree)
-
-    for line in outtree:
-        print line
+    dot = Digraph('g', filename='btree.gv', node_attr={'shape': 'record', 'height': '.1'})
+    _addNodeNEdge(dot, tree)
+    dot.render('tree', view=True)
 
 
-def _printTree(tree, depth, max_depth, string_tree):
-    """ Internal print tree """
+def _addNodeNEdge(dot, node):
+    """ Recursive function to add a node,
+    its value and children """
 
-    if tree is not None:
-        if "value" in tree and tree["value"] is not None:
+    print("Process %d" % node.value)
+    dot.node(str(node.value))
 
-            string_tree[depth] += (max_depth - depth) * "  " + str(tree["value"]) + " "
-            string_tree = _printTree(tree["left"], tree["depth"] + 1, max_depth, string_tree)
-            string_tree = _printTree(tree["right"], tree["depth"] + 1, max_depth, string_tree)
+    if node.left:
+        _addNodeNEdge(dot, node.left)
+        dot.edge(str(node.value), str(node.left.value), constraint='true')
+        print("Add edge from %d to %d" % (node.value, node.left.value))
 
-    return string_tree
+    if node.right:
+        _addNodeNEdge(dot, node.right)
+        dot.edge(str(node.value), str(node.right.value), constraint='true')
+        print("Add edge from %d to %d" % (node.value, node.right.value))
